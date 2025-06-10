@@ -1,21 +1,23 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import clsx from 'clsx';
-import { Home, User } from 'lucide-react';
+import { Link, useLocation } from "react-router-dom";
+import clsx from "clsx";
+import { Home, User } from "lucide-react";
+import { env } from "../../environment/environment";
+import { useContext } from "react";
+import { PostsContext } from "../../contexts/postsContext";
 
 export default function Sidebar(props) {
-  const { createdAt, dateOfBirth, email, gender, name, photo } = props.profile || {};
+  const { userPhoto } = useContext(PostsContext);
+  const { name } = props.profile || {};
   const location = useLocation();
-
   const navItems = [
-    { label: 'Home', icon: Home, href: '/home' },
-    { label: 'Profile', icon: User, href: '/profile' },
+    { label: "Home", icon: Home, href: "/home" },
+    { label: "Profile", icon: User, href: "/profile" },
   ];
 
   return (
-    <aside className="w-full h-fit sm:w-11/12 md:w-64 mt-10 bg-white border rounded-lg border-gray-200 p-6">
+    <aside className="w-full h-fit sm:w-11/12 mt-10 bg-white border rounded-lg border-gray-200 p-6">
       {/* Profile section */}
       <div className="relative flex flex-col items-center space-y-2 mb-6">
         <div
@@ -27,26 +29,29 @@ export default function Sidebar(props) {
         ></div>
 
         <img
-          src={photo || 'https://via.placeholder.com/150'}
+          src={userPhoto || env.loggedUserData.photo}
           alt="Profile"
           className="w-16 h-16 rounded-full border-4 border-white -mt-12 shadow-md"
         />
         <div className="text-center">
-          <h2 className="text-sm font-medium text-[#111827]">{name || 'Unnamed'}</h2>
+          <h2 className="text-sm font-medium text-[#111827]">
+            {name || "Unnamed"}
+          </h2>
         </div>
       </div>
 
       {/* Navigation links */}
       <nav className="text-sm text-gray-600 flex flex-col gap-3 sm:flex-row sm:justify-center sm:items-center sm:gap-10 md:flex-col md:items-start md:gap-2">
+        {/* eslint-disable-next-line no-unused-vars */}
         {navItems.map(({ label, icon: Icon, href }) => {
           const isActive = location.pathname === href;
           return (
             <Link
               key={label}
               to={href}
-              className={clsx('flex items-center space-x-2 transition', {
-                'text-[#111827] font-semibold': isActive,
-                'hover:text-[#111827]': !isActive,
+              className={clsx("flex items-center space-x-2 transition", {
+                "text-[#111827] font-semibold": isActive,
+                "hover:text-[#111827]": !isActive,
               })}
             >
               <Icon className="w-4 h-4" />

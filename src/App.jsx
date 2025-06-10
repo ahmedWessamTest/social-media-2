@@ -6,7 +6,7 @@ import { PostsProvider } from "./contexts/postsContext";
 import UserProfile from "./pages/userProfile/userProfile";
 import Register from "./pages/Register/Register";
 import SignIn from "./pages/Sign in/SignIn";
-import NotFound from "./pages/NotFount/NotFound"
+import NotFound from "./pages/NotFount/NotFound";
 
 const router = createBrowserRouter([
   {

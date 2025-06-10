@@ -10,18 +10,19 @@ const BlankLayout = () => {
   return !isAuth ? (
     <Navigate to="/signin" />
   ) : (
-    <div className="bg-gray-50 min-h-screen flex flex-col">
+    <div className="bg-gray-50">
       <Navbar />
+      <div className="container mx-auto">
+        <div className="grid lg:grid-cols-12 overflow-hidden">
+          <aside className="hidden md:block lg:col-span-3   ">
+            <Sidebar profile={profileData} />
+          </aside>
 
-      <div className="flex flex-1 overflow-hidden">
-        <aside className="hidden md:block md:w-64 lg:w-72 h-fit  ">
-          <Sidebar profile={profileData} />
-        </aside>
-
-        {/* Main content area */}
-        <main className="flex-1 p-4 overflow-y-auto">
-          <Outlet />
-        </main>
+          {/* Main content area */}
+          <main className="lg:col-span-9 overflow-y-auto">
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );

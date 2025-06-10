@@ -11,6 +11,7 @@ import { Loader2, SquarePen, X } from "lucide-react";
 import { memo, useCallback, useContext, useState } from "react";
 import { updatePost } from "../../utils/loaders";
 import { PostsContext } from "../../contexts/postsContext";
+import { env } from "../../environment/environment";
 
 function UpdateModal({ isOpen, setIsOpen, post }) {
   const { setPosts } = useContext(PostsContext);
@@ -51,7 +52,16 @@ function UpdateModal({ isOpen, setIsOpen, post }) {
         const updatedPost = await updatePost(post._id, formData);
         setPosts((prevPosts) =>
           prevPosts.map((post) =>
-            post._id === updatedPost.post._id ? updatedPost.post : post
+            post._id === updatedPost.post._id
+              ? {
+                  ...updatedPost.post,
+                  user: {
+                    photo: env.loggedUserData.photo,
+                    name: env.loggedUserData.name,
+                    _id: env.loggedUserData._id,
+                  },
+                }
+              : post
           )
         );
         setAlertMessage("Post updated successfully");

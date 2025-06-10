@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import StatusOverlay from "../../components/StatusOverlay";
 import ImageUpload from "../../components/ImageUpload";
 import useTextValidation from "../../hooks/useTextValidation";
 import api from "../../utils/apiEnvironment";
+import { env } from "../../environment/environment";
+import { PostsContext } from "../../contexts/postsContext";
 
-export default function CreatePost({
-  profilePicture = "https://linked-posts.routemisr.com/uploads/default-profile.png",
-}) {
+export default function CreatePost() {
+  const { userPhoto } = useContext(PostsContext);
   const [status, setStatus] = useState({
     loading: false,
     error: null,
@@ -66,11 +67,13 @@ export default function CreatePost({
       <StatusOverlay status={status} onDismiss={dismissOverlay} />
 
       <div className="flex gap-4 items-center">
-        <img
-          src={profilePicture}
-          alt=""
-          className="w-10 h-10 rounded-full mr-3 bg-gray-200"
-        />
+        <div className="w-12 h-12 overflow-hidden rounded-full">
+          <img
+            src={userPhoto || env.loggedUserData.photo}
+            alt=""
+            className=" bg-gray-200 block w-full h-full"
+          />
+        </div>
 
         <div className="w-full relative">
           <textarea

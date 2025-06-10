@@ -1,8 +1,22 @@
-import logo from "../../../src/assets/Logomark.png"
+import logo from "../../../src/assets/Logomark.png";
 import { User, Search } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    // Clear user data and token from local storage
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("user_data");
+    localStorage.removeItem("userData");
+
+    navigate("/signin");
+
+    // Optionally, you can also reload the page to ensure a fresh start
+    // window.location.reload();
+  }
+
   return (
     <div className="flex justify-between items-center px-4 w-full h-16 text-gray-400 shadow-sm bg-white">
       <img src={logo} alt="logo" className="h-8" />
@@ -19,11 +33,17 @@ const Navbar = () => {
 
       <div className="flex items-center gap-4">
         <div className="flex gap-3 text-black md:hidden">
-          <Link to="/home" className="hover:underline">Home</Link>
-          <Link to="/profile" className="hover:underline">Profile</Link>
+          <Link to="/home" className="hover:underline">
+            Home
+          </Link>
+          <Link to="/profile" className="hover:underline">
+            Profile
+          </Link>
         </div>
 
-        <button className="text-black">Logout</button>
+        <button className="text-black cursor-pointer" onClick={handleLogout}>
+          Logout
+        </button>
         <User className="text-black" />
       </div>
     </div>

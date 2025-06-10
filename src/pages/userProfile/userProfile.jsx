@@ -6,47 +6,35 @@ import { env } from "../../environment/environment";
 import Settings from "./settings/Settings";
 import SavedPosts from "./savedPosts";
 import MyPosts from "./myPosts";
+import FriendSuggestions from "../../components/FriendSuggestions";
 
 export default function UserProfile() {
-  // const [profileData, setProfileData] = React.useState(null);
-  const [activeTab, setActiveTab] = useState("settings");
-
-  // async function ProfileDataGetter() {
-  //   const token = localStorage.getItem("userToken");
-  //   try {
-  //     const response = await axios.get("https://linked-posts.routemisr.com/users/profile-data", {
-  //       headers: {
-  //         token,
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     setProfileData(response.data.user);
-  //   } catch (error) {
-  //     console.error("Failed to fetch profile data:", error);
-  //     throw error;
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   ProfileDataGetter();
-  //   console.log(Tap);
-  // }, [Tap]);
+  const [activeTab, setActiveTab] = useState("myPosts");
 
   const profileData = env.loggedUserData;
 
   return (
     <>
-      <div className="flex  sm:flex-col sm:items-center  md:flex-row md:items-start min-h-screen bg-[#F9FAFB] text-[#111827] font-sans">
+      <div className=" sm:items-center  md:flex-row md:items-start bg-[#F9FAFB] text-[#111827] font-sans">
         {/* <Sidebar profile={profileData} /> */}
-
-        <main className="p-10 w-3/4 sm:w-full md:w-2/3 lg:w-3/4">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200  p-6">
-            <ProfileHeader profile={profileData} />
-
-            <ProfileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
-            {activeTab === "settings" ? <Settings /> : activeTab === "savedPosts" ? <SavedPosts /> : <MyPosts />}
+        <main className="py-10 grid lg:grid-cols-12 gap-3">
+          <div className="space-y-6 col-span-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 pb-0">
+              <ProfileHeader profile={profileData} />
+              <ProfileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              {activeTab === "settings" ? (
+                <Settings />
+              ) : activeTab === "savedPosts" ? (
+                <SavedPosts />
+              ) : (
+                <MyPosts />
+              )}
+            </div>
+          </div>
+          <div className="col-span-4 hidden lg:block">
+            <FriendSuggestions />
           </div>
         </main>
       </div>

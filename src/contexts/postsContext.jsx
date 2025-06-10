@@ -10,8 +10,10 @@ export const PostsProvider = ({ children }) => {
   const isFetchingRef = useRef(false);
   const [savedPostsList, setSavedPostsList] = useState([]);
   const [savedPosts, setSavedPosts] = useState([]);
-
-  const hasMore = paginationInfo ? paginationInfo.currentPage < paginationInfo.numberOfPages : true;
+  const [userPhoto, setUserPhoto] = useState(null);
+  const hasMore = paginationInfo
+    ? paginationInfo.currentPage < paginationInfo.numberOfPages
+    : true;
 
   const getAllData = useCallback(async (page = 1) => {
     if (isFetchingRef.current) return;
@@ -70,12 +72,16 @@ export const PostsProvider = ({ children }) => {
     setSavedPosts(savedData);
     setSavedPostsList(savedData.map((p) => p._id));
   };
+  const freeData = useCallback(() => {
+    setPosts([]);
+  }, []);
   useEffect(() => {
     handleSavedPostsList();
   }, []);
   return (
     <PostsContext.Provider
       value={{
+        freeData,
         setSavedPostsList,
         savedPostsList,
         savedPosts,
@@ -88,6 +94,8 @@ export const PostsProvider = ({ children }) => {
         isFetching: isFetchingRef.current,
         getAllData,
         getUserData,
+        userPhoto,
+        setUserPhoto,
       }}
     >
       {children}
