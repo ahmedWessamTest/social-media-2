@@ -4,7 +4,7 @@ import { PostsContext } from "../../contexts/postsContext";
 import { env } from "../../environment/environment";
 
 export default function ProfileHeader(props) {
-  const { email, name, photo } = props.profile || {};
+  const { email, name } = props.profile || {};
   const { posts, userPhoto } = useContext(PostsContext);
   return (
     <div className="flex items-center space-x-4 mb-6">

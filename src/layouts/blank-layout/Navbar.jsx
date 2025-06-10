@@ -1,20 +1,19 @@
 import logo from "../../../src/assets/Logomark.png";
 import { User, Search } from "lucide-react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { PostsContext } from "../../contexts/postsContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { setUserPhoto } = useContext(PostsContext);
 
   function handleLogout() {
-    // Clear user data and token from local storage
     localStorage.removeItem("userToken");
     localStorage.removeItem("user_data");
     localStorage.removeItem("userData");
-
+    setUserPhoto(null);
     navigate("/signin");
-
-    // Optionally, you can also reload the page to ensure a fresh start
-    // window.location.reload();
   }
 
   return (
